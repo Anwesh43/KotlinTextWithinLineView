@@ -19,4 +19,28 @@ class TextWithinLineView(ctx:Context):View(ctx) {
         }
         return true
     }
+    data class TextLine(var x:Float,var y:Float,var text:String,var w:Float) {
+        fun draw(canvas:Canvas,paint:Paint) {
+            paint.textSize = w/10
+            val tw = paint.measureText(text)
+            paint.color = Color.WHITE
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.save()
+            canvas.translate(x,y)
+            canvas.rotate(90f)
+            for(i in 0..1) {
+                canvas.drawLine(-0.7f * tw, -w / 20, 0.7f * tw, -w/20, paint)
+            }
+            val path = Path()
+            path.addRect(RectF(-0.7f*tw,-w/20,0.7f*tw,w/20),Path.Direction.CW)
+            canvas.drawText(text,-tw/2,w/40,paint)
+            canvas.restore()
+        }
+        fun update(stopcb:()->Unit) {
+
+        }
+        fun startUpdating(startcb:()->Unit) {
+
+        }
+    }
 }
