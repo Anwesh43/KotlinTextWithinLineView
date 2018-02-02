@@ -6,7 +6,7 @@ package ui.anwesome.com.textwithinlineview
 import android.graphics.*
 import android.content.*
 import android.view.*
-class TextWithinLineView(ctx:Context):View(ctx) {
+class TextWithinLineView(ctx:Context,var text:String):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     override fun onDraw(canvas:Canvas) {
 
@@ -23,6 +23,8 @@ class TextWithinLineView(ctx:Context):View(ctx) {
         val state = TextWithinState()
         fun draw(canvas:Canvas,paint:Paint) {
             paint.textSize = w/10
+            paint.strokeWidth = w/45
+            paint.strokeCap = Paint.Cap.ROUND
             val tw = paint.measureText(text)
             paint.color = Color.WHITE
             paint.strokeCap = Paint.Cap.ROUND
@@ -92,6 +94,30 @@ class TextWithinLineView(ctx:Context):View(ctx) {
         fun stop() {
             if(animated) {
                 animated = false
+            }
+        }
+    }
+    data class Renderer(var view:TextWithinLineView, var time:Int = 0) {
+        val animator = Animator(view)
+        var textWithinLine:TextWithinLine?=null
+        fun render(canvas:Canvas,paint:Paint) {
+            if(time == 0) {
+                val w = canvas.width.toFloat()
+                val h = canvas.height.toFloat()
+                textWithinLine = TextWithinLine(w/2,h/2,view.text,Math.min(w,h))
+            }
+            canvas.drawColor(Color.parseColor("#2980b9"))
+            textWithinLine?.draw(canvas,paint)
+            time++
+            animator.animate {
+                textWithinLine?.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            textWithinLine?.startUpdating {
+                animator.start()
             }
         }
     }
