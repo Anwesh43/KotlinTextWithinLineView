@@ -3,6 +3,7 @@ package ui.anwesome.com.textwithinlineview
 /**
  * Created by anweshmishra on 02/02/18.
  */
+import android.app.Activity
 import android.graphics.*
 import android.content.*
 import android.view.*
@@ -120,6 +121,13 @@ class TextWithinLineView(ctx:Context,var text:String):View(ctx) {
             textWithinLine?.startUpdating {
                 animator.start()
             }
+        }
+    }
+    companion object {
+        fun create(activity:Activity,text:String):TextWithinLineView {
+            val view = TextWithinLineView(activity,text)
+            activity.setContentView(view)
+            return view
         }
     }
 }
