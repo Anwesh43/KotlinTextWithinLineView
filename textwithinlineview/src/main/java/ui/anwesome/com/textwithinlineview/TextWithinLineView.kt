@@ -32,8 +32,8 @@ class TextWithinLineView(ctx:Context,var text:String):View(ctx) {
             paint.strokeCap = Paint.Cap.ROUND
             canvas.save()
             canvas.translate(x,y)
-            canvas.rotate(90f*(1-state.scales[2]))
-            val th = w/20*(state.scales[1])
+            canvas.rotate(90f*(1-state.scales[1]))
+            val th = w/18*(state.scales[2])
             val tx = 0.7f*tw*(state.scales[0])
             for(i in 0..1) {
                 canvas.drawLine(-tx, th*(1-2*i), tx, th*(1-2*i), paint)
@@ -41,7 +41,7 @@ class TextWithinLineView(ctx:Context,var text:String):View(ctx) {
             val path = Path()
             path.addRect(RectF(-tx, -th, tx, th),Path.Direction.CW)
             canvas.clipPath(path)
-            canvas.drawText(text,-tw/2,w/40,paint)
+            canvas.drawText(text,-tw/2,w/30,paint)
             canvas.restore()
         }
         fun update(stopcb:(Float)->Unit) {
